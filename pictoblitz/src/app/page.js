@@ -5,13 +5,24 @@ import Link from 'next/link'
 
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { auth, googleProvider } from "@/lib/firebase";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
 
   const [user, setUser] = useState(null);
   const router = useRouter();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+
+    if (token) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, []);
 
   const handleSignIn = async () => {
     try {
@@ -34,6 +45,8 @@ export default function Home() {
       alert("Failed to sign in: " + error.message);
     }
   }
+
+
 
   return (
     <div className="grid grid-rows-[20px_1fr_20px]items-center justify-items-center min-h-screen bg-black p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
@@ -70,9 +83,16 @@ export default function Home() {
                   </svg>
                 Login with Google
               </button>
+              <div>
+                {isLoggedIn && (
               <Link href="/profile">
-              <button className="flex items-center justify-center gap-2 bg-teal-700 text-white font-medium py-2 px-4 rounded-md border border-gray-300 hover:shadow-md transition-all hover:scale-105">Profile</button>
+
+                  <button className="flex items-center justify-center gap-2 bg-teal-700 text-white font-medium py-2 px-4 rounded-md border border-gray-300 hover:shadow-md transition-all hover:scale-105">
+                    Profile
+                  </button>
               </Link>
+                )}
+              </div>
             </div>
 
           </div>

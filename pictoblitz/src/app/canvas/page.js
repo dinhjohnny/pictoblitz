@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import ChatBox from "../ChatBox";
 
 export default function Home() {
   const canvasRef = useRef(null);;
@@ -66,13 +67,15 @@ export default function Home() {
 
   return (
     <>
-    <div className="p-24">
-    <canvas
+    <div className="p-24 flex flex-row gap-x-10">
+      <canvas
         onMouseDown={() => setMouseDown(true)}
         ref={canvasRef}
         width={500}
         height={500}
-        className="bg-white border border-black"></canvas>
+        className="bg-white border border-black">
+      </canvas>
+      <ChatBox></ChatBox>
     </div>
 
     </>
